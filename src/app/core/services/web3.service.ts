@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Connection, clusterApiUrl, PublicKey } from '@solana/web3.js';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +46,8 @@ export class Web3Service {
   }
 
   getBalance(account: string): Promise<number> {
-    const connection = new Connection(clusterApiUrl('devnet'));
+    const provider = this.getProvider();
+    const connection = new Connection(clusterApiUrl(environment.cluster as any));
     const wallet = new PublicKey(account);
     return connection.getBalance(wallet)
   }
